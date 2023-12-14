@@ -1,18 +1,25 @@
 package com.example.finalsprojectics26011
 
+import android.app.Activity
 import android.content.Intent
 import android.database.Cursor
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
 
     // Initialize MyDatabaseHelper
     private lateinit var myDB: MyDatabaseHelper
+
+    // Request code for starting the UpdateActivity
+    companion object {
+        const val UPDATE_REQUEST_CODE = 123
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +51,8 @@ class MainActivity : AppCompatActivity() {
             patient_name,
             patient_address, patient_age, patient_contact,
             patient_appointment, patient_od, patient_os, patient_add, patient_pd, patient_frame,
-            patient_lens, patient_laboratory, patient_price)
+            patient_lens, patient_laboratory, patient_price
+        )
 
         // Create an instance of CustomAdapter
         val customAdapter = CustomAdapter(
@@ -63,7 +71,6 @@ class MainActivity : AppCompatActivity() {
             patient_lens,
             patient_laboratory,
             patient_price
-
         )
 
         // Set the adapter and layout manager for the RecyclerView
@@ -117,5 +124,65 @@ class MainActivity : AppCompatActivity() {
         }
         cursor?.close()
     }
-}
 
+    // Override onActivityResult to handle the result from UpdateActivity
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == UPDATE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Refresh your adapter or reload data from the database
+            refreshData()
+        }
+    }
+
+    // Function to refresh data in the adapter
+    private fun refreshData() {
+        val patient_name = ArrayList<String>()
+        val patient_address = ArrayList<String>()
+        val patient_age = ArrayList<String>()
+        val patient_contact = ArrayList<String>()
+        val patient_appointment = ArrayList<String>()
+        val patient_od = ArrayList<String>()
+        val patient_os = ArrayList<String>()
+        val patient_add = ArrayList<String>()
+        val patient_pd = ArrayList<String>()
+        val patient_frame = ArrayList<String>()
+        val patient_lens = ArrayList<String>()
+        val patient_laboratory = ArrayList<String>()
+        val patient_price = ArrayList<String>()
+
+        // Call the function to populate arrays
+        storeDataInArrays(
+            patient_name,
+            patient_address, patient_age, patient_contact,
+            patient_appointment, patient_od, patient_os, patient_add, patient_pd, patient_frame,
+            patient_lens, patient_laboratory, patient_price
+        )
+
+        // Get the RecyclerView from the layout
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
+        // Create a new instance of CustomAdapter
+        val customAdapter = CustomAdapter(
+            this,
+            this,
+            patient_name,
+            patient_address,
+            patient_age,
+            patient_contact,
+            patient_appointment,
+            patient_od,
+            patient_os,
+            patient_add,
+            patient_pd,
+            patient_frame,
+            patient_lens,
+            patient_laboratory,
+            patient_price
+        )
+
+        // Set the new adapter for the RecyclerView
+        recyclerView.adapter = customAdapter
+        customAdapter.notifyDataSetChanged()
+    }
+}

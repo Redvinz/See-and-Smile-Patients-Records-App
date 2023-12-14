@@ -39,21 +39,25 @@
 
                 val myDB = MyDatabaseHelper(this)
                 myDB.addRecord(
-                    etName.getText().toString().trim(),
-                    etAddress.getText().toString().trim(),
-                    etAge.getText().toString().trim(),
-                    etContact.getText().toString().trim(),
-                    etAppointment.getText().toString().trim(),
-                    etOD.getText().toString().trim(),
-                    etOS.getText().toString().trim(),
-                    etAdd.getText().toString().trim(),
-                    etPD.getText().toString().trim(),
-                    etFrame.getText().toString().trim(),
-                    etLens.getText().toString().trim(),
-                    etLaboratory.getText().toString().trim(),
-                    etPrice.getText().toString().trim()
+                    etName.text.toString().trim(),
+                    etAddress.text.toString().trim(),
+                    etAge.text.toString().trim(),
+                    etContact.text.toString().trim(),
+                    etAppointment.text.toString().trim(),
+                    etOD.text.toString().trim(),
+                    etOS.text.toString().trim(),
+                    etAdd.text.toString().trim(),
+                    etPD.text.toString().trim(),
+                    etFrame.text.toString().trim(),
+                    etLens.text.toString().trim(),
+                    etLaboratory.text.toString().trim(),
+                    etPrice.text.toString().trim()
                 )
-            }
 
+                // After adding the record, navigate back to MainActivity
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
+
